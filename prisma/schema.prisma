@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id @default(cuid())
+  clerkId        String         @unique
+  username       String
+  email          String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  personalInfo   PersonalInfo?  @relation(fields: [personalInfoId], references: [id])
+  personalInfoId String?
+  progressInfo   ProgressInfo[]
+  exercise       Exercise[]
+  SucessStory    SucessStory[]
+}
+
+model ProgressInfo {
+  id              String  @id @default(cuid())
+  date            String
+  mobility        String
+  speech          String
+  strength        String
+  dailyActivities String?
+  User            User?   @relation(fields: [userId], references: [id])
+  userId          String?
+}
+
+model PersonalInfo {
+  id           String  @id @default(cuid())
+  age          String
+  gender       String
+  dateofStroke String
+  timeofStroke String
+  typeofStroke String
+  location     String
+  description  String?
+  symptoms     String
+  User         User[]
+}
+
+model Exercise {
+  id            String  @id @default(cuid())
+  date          String
+  excerciseType String
+  duration      String
+  intensity     String
+  pain          String
+  User          User?   @relation(fields: [userId], references: [id])
+  userId        String?
+}
+
+model SucessStory {
+  id          String  @id @default(cuid())
+  VideoUrl    String
+  description String
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String?
+}
