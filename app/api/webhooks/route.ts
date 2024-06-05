@@ -69,7 +69,7 @@ export async function POST(req: Request) {
     //Update the user metadata
     await clerkClient.users.updateUserMetadata(id, {
       publicMetadata: {
-        userId: db.user.findUnique({
+        userId: await db.user.findUnique({
           where: {
             clerkId: id
           },
