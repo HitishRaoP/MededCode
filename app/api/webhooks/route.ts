@@ -5,7 +5,7 @@ import { db } from '@/lib/db'
 
 export async function POST(req: Request) {
 
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET_PROD
 
   if (!WEBHOOK_SECRET) {
     throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
@@ -49,7 +49,8 @@ export async function POST(req: Request) {
 
 
   if (evt.type === 'user.created' || evt.type === 'user.updated') {
-    const { id, username, email_addresses} = evt.data
+    const { id, username, email_addresses } = evt.data
+    //Directly updating the database without external functions
     await db.user.upsert({
       where: {
         clerkId: id
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
     //Update the user metadata
     await clerkClient.users.updateUserMetadata(id, {
       publicMetadata: {
-        userId: await db.user.findUnique({
+        userId: db.user.findUnique({
           where: {
             clerkId: id
           },
@@ -82,6 +83,7 @@ export async function POST(req: Request) {
   }
 
   if (evt.type === 'user.deleted') {
+
     await db.user.delete(
       {
         where:
