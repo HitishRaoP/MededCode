@@ -49,19 +49,19 @@ export async function POST(req: Request) {
 
 
   if (evt.type === 'user.created' || evt.type === 'user.updated') {
-    const { id, username, email_addresses , first_name} = evt.data
+    const { id, username, email_addresses} = evt.data
     await db.user.upsert({
       where: {
         clerkId: id
       },
       create: {
         clerkId: id,
-        username: first_name!,
+        username: username!,
         email: email_addresses[0].email_address
       },
       update: {
         clerkId: id,
-        username: first_name!,
+        username: username!,
         email: email_addresses[0].email_address,
       },
     })

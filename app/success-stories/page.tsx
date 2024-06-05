@@ -20,7 +20,7 @@ function SuccessStoriesPage() {
       {
         data.map((d) => {
           return (
-            <div>
+            <div key={d.VideoUrl}>
               <video className='w-full rounded-lg' controls preload="none">
                 <source src={d.VideoUrl} type="video/mp4" />
                 <track
@@ -34,7 +34,6 @@ function SuccessStoriesPage() {
               <span className='text-md'>
               {d.description}
               </span>
-              
             </div>
           )
         })

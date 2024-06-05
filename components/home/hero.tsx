@@ -9,7 +9,7 @@ export function HeroComponent() {
                 Get Personlised <span className=' bg-gradient-to-tr from-pink-500 to-violet-500 bg-clip-text text-transparent'>AI advice</span> for all your health needs                
             </CardTitle>
             <CardDescription className='text-center'>
-                Going to hospital for checkups? Don't worry, we have got you covered
+                Going to hospital for checkups? Don&apos;t worry, we have got you covered
             </CardDescription>
         </CardHeader>
     </Card>
